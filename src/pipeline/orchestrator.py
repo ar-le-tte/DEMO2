@@ -1,7 +1,7 @@
 from __future__ import annotations
-
 from src.config import Paths, Settings, MOVIE_IDS
 from src.logging_utils import get_logger
+from src.pipeline.build_gold import main as build_gold_main
 from src.pipeline.extract_bronze import download_movies_parallel
 from src.pipeline.build_silver import read_bronze_json, build_silver
 
@@ -33,7 +33,8 @@ def main() -> None:
     paths.silver_dir.mkdir(parents=True, exist_ok=True)
     df_silver.to_parquet(out_path, index=False)
     logger.info("Saved silver: %s (rows=%s)", out_path, len(df_silver))
-
+    # 3 Gold Building
+    build_gold_main()
 
 if __name__ == "__main__":
     main()
