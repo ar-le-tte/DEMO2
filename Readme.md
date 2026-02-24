@@ -14,6 +14,7 @@ It separates:
 
 ---
 ## System Architecture
+```text
 TMDB API
    ↓
 Extraction Layer
@@ -47,11 +48,22 @@ Visualization Layer
 (notebooks/tmdb_viz.ipynb)
    ↓
 Plots, Insights, Final Report
+```
+This architecture follows 9 imortant stages:
+1. TMDB API
+2. tmdb_client.py  → fetch movie + credits
+3. extract_bronze.py  → save one JSON per movie
+4. build_silver.py  → flatten + clean + type cast
+5. quality/checks.py → validate required columns
+6. tmdb_movies_silver.parquet
+7. build_gold.py  → add KPIs + rankings + aggregations
+8. data/gold/*.csv
+9. tmdb_viz.ipynb → visualization + analysis
 --- 
 ## Project Structure
 
 ```text
-.
+DEMO2/
 ├── data/
 │   ├── bronze/        # Raw JSON bundles from TMDB API
 │   ├── silver/        # Cleaned analysis-ready dataset (parquet)
@@ -84,4 +96,3 @@ Plots, Insights, Final Report
 ├── .gitignore
 └── README.md
 ```
-
