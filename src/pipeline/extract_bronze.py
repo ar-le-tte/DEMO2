@@ -6,7 +6,6 @@ from typing import Iterable, List, Tuple
 
 from src.tmdb_client import fetch_movie_with_credits
 from src.logging_utils import get_logger
-from src.config import Paths, Settings, MOVIE_IDS
 
 logger = get_logger()
 
@@ -86,24 +85,3 @@ def count_statuses(results: List[Tuple[int, str]]) -> dict:
     for _, status in results:
         counts[status] = counts.get(status, 0) + 1
     return counts
-
-
-def main() -> None:
-    paths = Paths().ensure()
-    settings = Settings()
-
-    if not settings.tmdb_api_key:
-        raise ValueError("TMDB_API_KEY is missing. Put it in your .env or environment variables.")
-
-    download_movies_parallel(
-        movie_ids=MOVIE_IDS,
-        out_dir=paths.bronze_dir,
-        api_key=settings.tmdb_api_key,
-        max_workers=8,
-        sleep_between_calls=0.0,
-        verbose=True,
-    )
-
-
-if __name__ == "__main__":
-    main()
