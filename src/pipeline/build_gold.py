@@ -29,7 +29,7 @@ def main() -> None:
 
     paths.gold_dir.mkdir(parents=True, exist_ok=True)
 
-    # ---- Rankings required by lab ----
+    # ---- Rankings ----
     rankings = {
         "top_revenue":        ("revenue_musd", 10, False, None),
         "top_budget":         ("budget_musd", 10, False, None),
