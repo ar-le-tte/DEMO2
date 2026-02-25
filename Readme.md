@@ -141,12 +141,12 @@ This is responsible tansforming raw JSON into an analysis-ready dataset: Cleanin
 ### Gold Layer
 This is responsible for computing analytical metrics, generate analytical outputs and ranked insights.
 **Key scripts**: 
-- [`Gold Orchestrator`]src/pipeline/build_gold.py
-- src/kpis/metrics.py
-- src/kpis/ranking.py
-- src/kpis/search.py
-- src/kpis/franchise.py
-- src/kpis/directors.py
+- [`Gold Orchestrator`](src/pipeline/build_gold.py)
+- [`Metrics`](src/kpis/metrics.py)
+- [`Ranking`](src/kpis/ranking.py)
+- [`Search`](src/kpis/search.py)
+- [`Franchise`](src/kpis/franchise.py)
+- [`Directors`](src/kpis/directors.py)
 
 **What Happens Here**
 1. KPI Feature Engineering
