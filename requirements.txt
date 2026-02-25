@@ -1,3 +1,6 @@
 pandas
 requests
+numpy
+matplotlib
+pyarrow
 python-dotenv
