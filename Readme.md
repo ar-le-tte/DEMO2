@@ -161,3 +161,71 @@ This is responsible for computing analytical metrics, generate analytical output
    - Reads only from Silver and Gold outputs
    - Performs no heavy transformation
    - Generates visual insights such as Revenue vs Budget trends
+
+## How to Run
+### Main Dependencies
+- `pandas`
+- `numpy`
+- `requests`
+- `python-dotenv`
+- `matplotlib`
+- `pyarrow`
+### 1. Clone the Repository
+```bash
+git clone https://github.com/ar-le-tte/DEMO2.git
+cd DEMO2
+```
+### 2. Create and activate an environment
+```bash
+python -m venv .venv
+# Linux/Mac:
+source .venv/bin/activate
+# Windows:
+.venv\Scripts\activate
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirememnts.txt
+```
+
+### 4.TMDB API Key
+Create a `.env` file in the project root. Put in:
+```text
+TMDB_API_KEY=your_key_here
+LOG_LEVEL=INFO
+LOG_TO_FILE=1
+```
+### 5. Run the full pipeline
+From the project root:
+
+```bash
+python -m src.pipeline.orchestrator
+```
+#### Outputs generated
+1. **Bronze**
+```text
+data/bronze
+```
+2. **Silver**
+```text
+data/silver/tmdb_movies_silver.parquet
+```
+3. **Gold:** KPI & ANalytical Tables
+```text
+data/gold/*.csv
+```
+4. **Logs:** Console + file logging
+```text
+logs/pipeline.log
+```
+
+### 6. Run the notebook (visualizations)
+
+#### Outputs generated
+Visual Plots for different KPIs
+
+```text
+notebooks/tmdb_viz.ipynb
+```
+
