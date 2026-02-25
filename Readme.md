@@ -74,14 +74,14 @@ DEMO2/
 │
 ├── src/
 │   ├── config.py
-│   ├── logging_utils.py
+│   ├── logging_utils.py     # Logging the sucess and failures of the tasks
 │   ├── tmdb_client.py
 │   │
 │   ├── pipeline/
 │   │   ├── extract_bronze.py
 │   │   ├── build_silver.py
 │   │   ├── build_gold.py
-│   │   └── orchestrator.py
+│   │   └── orchestrator.py           # To orchestate the whole pipeline
 │   │
 │   ├── kpis/
 │   │   ├── metrics.py
@@ -96,3 +96,68 @@ DEMO2/
 ├── .gitignore
 └── README.md
 ```
+## Pipeline Architecture
+### Bronze Layer - Raw Data Extraction
+This is responsible for Raw Ingestion from TMDB API and persit it without transformations: Storing the movies, credits JSON files as received.
+
+**Key Features**
+- Raw data preservation
+- Parallel API extraction
+- Uses `.env` secret keys for the extraction
+
+**Key scripts**: 
+1. [`TMDB Client`](src/tmdb_client.py)
+   - Handles API Communication
+   - Fetches movie details and movie credits
+
+2. [`Movies Download`](src/pipeline/extract_bronze.py)
+   - Downloads movies in parallel
+   - Saves one `JSON` file per movie
+   - Ensures idempotency (Skips already downloaded files)
+
+
+
+### Silver Layer
+This is responsible tansforming raw JSON into an analysis-ready dataset: Cleaning the data.
+
+**Key Features**
+- Flattened nested JSON
+- Strong type enforcement
+- Data validation
+- Clean, analysis-ready table
+- Parquet format for efficiency
+
+**Key script**: 
+1. [`Silver Building`](src/pipeline/build_silver.py)
+   - Read all Bronze JSON files
+   - Flatten nested JSON fields
+   - Extract credit-based features
+   - Type Casting
+   - Data cleaning
+
+2. [`Quality Checking`](src/quality/checks.py)
+   - Checking the exixtense of required columns
+
+### Gold Layer
+This is responsible for computing analytical metrics, generate analytical outputs and ranked insights.
+**Key scripts**: 
+- [`Gold Orchestrator`]src/pipeline/build_gold.py
+- src/kpis/metrics.py
+- src/kpis/ranking.py
+- src/kpis/search.py
+- src/kpis/franchise.py
+- src/kpis/directors.py
+
+**What Happens Here**
+1. KPI Feature Engineering
+2. Ranking Engine: Generic ranking helper used to compute thing like:
+   - Highest Revenue
+   - Highest Budget
+3. Advanced Search Queries: 
+   - Best-rated Science Fiction + Action movies starring Bruce Willis
+   - Movies starring Uma Thurman, directed by Quentin Tarantino
+4. Aggregations
+5. [`Visualizations`](notebooks/tmdb_viz.ipynb)
+   - Reads only from Silver and Gold outputs
+   - Performs no heavy transformation
+   - Generates visual insights such as Revenue vs Budget trends
